@@ -1,0 +1,27 @@
+<gs:GlobalizationServices xmlns:gs="urn:longhornGlobalizationUnattend">
+<!-- https://learn.microsoft.com/en-us/troubleshoot/windows-client/deployment/automate-regional-language-settings -->
+    <!--User List-->
+    <gs:UserList>
+        <gs:User UserID="Current" CopySettingsToDefaultUserAcct="true" CopySettingsToSystemAcct="true"/>
+    </gs:UserList>
+    <!-- user locale -->
+    <gs:UserLocale>
+        <gs:Locale Name="fr-FR" SetAsCurrent="true"/>
+    </gs:UserLocale>
+    <!-- system locale -->
+    <gs:SystemLocale Name="fr-FR"/>
+    <!-- GeoID  https://learn.microsoft.com/en-us/windows/win32/intl/table-of-geographical-locations  -->
+    <!-- France French Republic = 84 -->
+    <gs:LocationPreferences>
+        <gs:GeoID Value="84"/>
+    </gs:LocationPreferences>
+    <gs:MUILanguagePreferences>
+        <gs:MUILanguage Value="fr-FR"/>
+        <gs:MUIFallback Value="en-US"/>
+    </gs:MUILanguagePreferences>
+    <!-- input preferences -->
+    <gs:InputPreferences>
+        <!-- fr-FR -->
+        <gs:InputLanguageID Action="add" ID="040C:0000040C" Default="true"/>
+    </gs:InputPreferences>
+</gs:GlobalizationServices>
