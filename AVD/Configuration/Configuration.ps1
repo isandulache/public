@@ -61,9 +61,9 @@ configuration AddSessionHost
                         return @{'Result' = ''}
                     }
                     SetScript = {
-                        & "$using:ScriptPath\Script-AddRdshServer.ps1" -HostPoolName $using:HostPoolName -ResourceGroupName $using:ResourceGroup -AzTenantID $using:AzTenantID -AppId $using:AppID -AppSecret $using:AppSecret
-                        & "$using:ScriptPath\Script-RenameDesktop.ps1" -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID -DesktopName $using:DesktopName -AppId $using:AppID -AppSecret $using:AppSecret 
-                        & "$using:ScriptPath\Script-AddDefaultUsers.ps1" -HostPoolName $using:HostPoolName -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID  -AppId $using:AppID -AppSecret $using:AppSecret -DefaultUsers $using:DefaultUsers
+                        & "$using:ScriptPath\Script-AddRdshServer.ps1" -HostPoolName $using:HostPoolName -ResourceGroupName $using:ResourceGroup -AzTenantID $using:AzTenantID -AppId $using:AppID -AppSecret $using:AppSecret $using:AzSubscriptionID
+                        & "$using:ScriptPath\Script-RenameDesktop.ps1" -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID -DesktopName $using:DesktopName -AppId $using:AppID -AppSecret $using:AppSecret $using:AzSubscriptionID 
+                        & "$using:ScriptPath\Script-AddDefaultUsers.ps1" -HostPoolName $using:HostPoolName -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID  -AppId $using:AppID -AppSecret $using:AppSecret -DefaultUsers $using:DefaultUsers $using:AzSubscriptionID
                     }
                     TestScript = {
                         return (Test-path "Registry::HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\RDInfraAgent")

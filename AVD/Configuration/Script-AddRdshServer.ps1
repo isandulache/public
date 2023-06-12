@@ -21,7 +21,9 @@ param(
     [Parameter(mandatory = $true)]
     [string]$AppID,
     [Parameter(mandatory = $true)]
-    [string]$AppSecret
+    [string]$AppSecret,
+    [Parameter(Mandatory = $true)]
+    [string]$AzSubscriptionID
 )
 
 $ScriptPath = [system.io.path]::GetDirectoryName($PSCommandPath)
@@ -69,6 +71,7 @@ else
     $Creds= New-Object System.Management.Automation.PSCredential($AppID, (ConvertTo-SecureString $AppSecret -AsPlainText -Force))
 
     Connect-AzAccount -ServicePrincipal -Credential $Creds -TenantID $AzTenantID
+    Set-AzContext -SubscriptionId $AzSubscriptionID
 
     $Registered = Get-AzWvdRegistrationInfo -ResourceGroupName "$resourceGroupName" -HostPoolName $HostPoolName
     if (-not(-Not $Registered.Token)){ 

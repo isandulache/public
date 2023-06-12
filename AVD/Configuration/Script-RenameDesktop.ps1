@@ -20,7 +20,9 @@ param(
     [Parameter(mandatory = $true)]
     [string]$AppID,
     [Parameter(mandatory = $true)]
-    [string]$AppSecret
+    [string]$AppSecret,
+    [Parameter(Mandatory = $true)]
+    [string]$AzSubscriptionID
 )
 
 $ScriptPath = [system.IO.path]::GetDirectoryName($PSCommandPath)
@@ -39,6 +41,7 @@ $Creds= New-Object System.Management.Automation.PSCredential($AppID, (ConvertTo-
 Write-Log -Message "Connecting to Azure."
 #Connect to Azure
 Connect-AzAccount -ServicePrincipal -Credential $Creds -TenantID $AzTenantID
+Set-AzContext -SubscriptionId $AzSubscriptionID
 
 #Update the Application Group Desktop FriendlyName
 Write-Log -Message "Attempting to rename Desktop name."

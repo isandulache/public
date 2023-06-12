@@ -22,7 +22,9 @@ param
     [Parameter(mandatory = $true)]
     [string]$AppSecret,
     [Parameter(mandatory = $false)]
-    [string]$DefaultUsers
+    [string]$DefaultUsers,
+    [Parameter(Mandatory = $true)]
+    [string]$AzSubscriptionID
 )
 
 $ScriptPath = [system.IO.path]::GetDirectoryName($PSCommandPath)
@@ -43,6 +45,7 @@ Import-Module -Name Az.DesktopVirtualization
 $Creds= New-Object System.Management.Automation.PSCredential($AppID, (ConvertTo-SecureString $AppSecret -AsPlainText -Force))
 
 Connect-AzAccount -ServicePrincipal -Credential $Creds -TenantID $AzTenantID
+Set-AzContext -SubscriptionId $AzSubscriptionID
 
 Write-Log -Message "Checking that Host Pool does not already exist in Tenant"
 $HostPool = Get-AzWVDHostPool 
