@@ -27,40 +27,34 @@ configuration AddSessionHost
 
     $OSVersionInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
     
-    if ($OSVersionInfo -ne $null)
-    {
-        if ($OSVersionInfo.InstallationType -ne $null)
-        {
-            $rdshIsServer=@{$true = $true; $false = $false}[$OSVersionInfo.InstallationType -eq "Server"]
+    if ($OSVersionInfo -ne $null) {
+        if ($OSVersionInfo.InstallationType -ne $null) {
+            $rdshIsServer = @{$true = $true; $false = $false }[$OSVersionInfo.InstallationType -eq "Server"]
         }
     }
 
     Node localhost
     {
-        LocalConfigurationManager
-        {
+        LocalConfigurationManager {
             RebootNodeIfNeeded = $true
-            ConfigurationMode = "ApplyOnly"
+            ConfigurationMode  = "ApplyOnly"
         }
 
-        if ($rdshIsServer)
-        {
+        if ($rdshIsServer) {
             "$(get-date) - rdshIsServer = true: $rdshIsServer" | out-file c:\windows\temp\rdshIsServerResult.txt -Append
             if ($env:computername -eq "$($vmPrefix)-0") {
 
-                WindowsFeature RDS-RD-Server
-                {
+                WindowsFeature RDS-RD-Server {
                     Ensure = "Present"
-                    Name = "RDS-RD-Server"
+                    Name   = "RDS-RD-Server"
                 }
 
-                Script ExecuteRdAgentInstallServer
-                {
-                    DependsOn = "[WindowsFeature]RDS-RD-Server"
-                    GetScript = {
-                        return @{'Result' = ''}
+                Script ExecuteRdAgentInstallServer {
+                    DependsOn  = "[WindowsFeature]RDS-RD-Server"
+                    GetScript  = {
+                        return @{'Result' = '' }
                     }
-                    SetScript = {
+                    SetScript  = {
                         & "$using:ScriptPath\Script-AddRdshServer.ps1" -HostPoolName $using:HostPoolName -ResourceGroupName $using:ResourceGroup -AzTenantID $using:AzTenantID -AppId $using:AppID -AppSecret $using:AppSecret $using:AzSubscriptionID
                         & "$using:ScriptPath\Script-RenameDesktop.ps1" -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID -DesktopName $using:DesktopName -AppId $using:AppID -AppSecret $using:AppSecret $using:AzSubscriptionID 
                         & "$using:ScriptPath\Script-AddDefaultUsers.ps1" -HostPoolName $using:HostPoolName -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID  -AppId $using:AppID -AppSecret $using:AppSecret -DefaultUsers $using:DefaultUsers $using:AzSubscriptionID
@@ -71,19 +65,17 @@ configuration AddSessionHost
                 }
             }
             else {
-                WindowsFeature RDS-RD-Server
-                {
+                WindowsFeature RDS-RD-Server {
                     Ensure = "Present"
-                    Name = "RDS-RD-Server"
+                    Name   = "RDS-RD-Server"
                 }
 
-                Script ExecuteRdAgentInstallServer
-                {
-                    DependsOn = "[WindowsFeature]RDS-RD-Server"
-                    GetScript = {
-                        return @{'Result' = ''}
+                Script ExecuteRdAgentInstallServer {
+                    DependsOn  = "[WindowsFeature]RDS-RD-Server"
+                    GetScript  = {
+                        return @{'Result' = '' }
                     }
-                    SetScript = {
+                    SetScript  = {
                         & "$using:ScriptPath\Script-AddRdshServer.ps1" -HostPoolName $using:HostPoolName -ResourceGroupName $using:ResourceGroup -AzTenantID $using:AzTenantID -AppId $using:AppID -AppSecret $using:AppSecret
                     }
                     TestScript = {
@@ -92,17 +84,15 @@ configuration AddSessionHost
                 }
             }
         }
-        else
-        {
+        else {
             "$(get-date) - rdshIsServer = false: $rdshIsServer" | out-file c:\windows\temp\rdshIsServerResult.txt -Append
             if ($env:computername -eq "$($vmPrefix)-0") {
                 
-                Script ExecuteRdAgentInstallClient
-                {
-                    GetScript = {
-                        return @{'Result' = ''}
+                Script ExecuteRdAgentInstallClient {
+                    GetScript  = {
+                        return @{'Result' = '' }
                     }
-                    SetScript = {
+                    SetScript  = {
                         & "$using:ScriptPath\Script-AddRdshServer.ps1" -HostPoolName $using:HostPoolName -ResourceGroupName $using:ResourceGroup -AzTenantID $using:AzTenantID -AppId $using:AppID -AppSecret $using:AppSecret
                         & "$using:ScriptPath\Script-RenameDesktop.ps1" -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID -DesktopName $using:DesktopName -AppId $using:AppID -AppSecret $using:AppSecret 
                         & "$using:ScriptPath\Script-AddDefaultUsers.ps1" -HostPoolName $using:HostPoolName -ResourceGroup $using:ResourceGroup -ApplicationGroupName $using:ApplicationGroupName -AzTenantID $using:AzTenantID  -AppId $using:AppID -AppSecret $using:AppSecret -DefaultUsers $using:DefaultUsers
@@ -113,12 +103,11 @@ configuration AddSessionHost
                 }
             }
             else {
-                Script ExecuteRdAgentInstallClient
-                {
-                    GetScript = {
-                        return @{'Result' = ''}
+                Script ExecuteRdAgentInstallClient {
+                    GetScript  = {
+                        return @{'Result' = '' }
                     }
-                    SetScript = {
+                    SetScript  = {
                         & "$using:ScriptPath\Script-AddRdshServer.ps1" -HostPoolName $using:HostPoolName -ResourceGroupName $using:ResourceGroup -AzTenantID $using:AzTenantID -AppId $using:AppID -AppSecret $using:AppSecret
                     }
                     TestScript = {

@@ -17,10 +17,10 @@ param
     [string]$AzTenantID,
     [Parameter(Mandatory = $true)]
     [string]$HostPoolName,
-    [Parameter(mandatory = $true)]
-    [string]$AppID,
-    [Parameter(mandatory = $true)]
-    [string]$AppSecret,
+#    [Parameter(mandatory = $true)]
+#    [string]$AppID,
+#    [Parameter(mandatory = $true)]
+#    [string]$AppSecret,
     [Parameter(mandatory = $false)]
     [string]$DefaultUsers,
     [Parameter(Mandatory = $true)]

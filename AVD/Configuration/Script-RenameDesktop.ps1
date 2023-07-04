@@ -17,10 +17,10 @@ param(
     [string]$DesktopName,
     [Parameter(mandatory = $true)]
     [string]$AzTenantID,
-    [Parameter(mandatory = $true)]
-    [string]$AppID,
-    [Parameter(mandatory = $true)]
-    [string]$AppSecret,
+#    [Parameter(mandatory = $true)]
+#    [string]$AppID,
+#    [Parameter(mandatory = $true)]
+#    [string]$AppSecret,
     [Parameter(Mandatory = $true)]
     [string]$AzSubscriptionID
 )

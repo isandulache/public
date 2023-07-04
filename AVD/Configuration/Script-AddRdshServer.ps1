@@ -18,10 +18,10 @@ param(
     [string]$HostPoolName,
     [Parameter(mandatory = $true)]
     [string]$ResourceGroupName,
-    [Parameter(mandatory = $true)]
-    [string]$AppID,
-    [Parameter(mandatory = $true)]
-    [string]$AppSecret,
+#    [Parameter(mandatory = $true)]
+#    [string]$AppID,
+#    [Parameter(mandatory = $true)]
+#    [string]$AppSecret,
     [Parameter(Mandatory = $true)]
     [string]$AzSubscriptionID
 )
